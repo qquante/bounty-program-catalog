@@ -59,10 +59,8 @@ DEFAULT_UA = (
 )
 
 
-# --------------------------------------------------------------------------- #
 # Sessao HTTP: prefere curl_cffi (imita TLS do Chrome -> passa pelo Cloudflare),
 # cai pra httpx se nao tiver.
-# --------------------------------------------------------------------------- #
 def load_text(path: Path) -> str:
     if path.exists():
         return path.read_text(encoding="utf-8").strip()
@@ -150,9 +148,7 @@ def polite_sleep():
     time.sleep(random.uniform(MIN_DELAY, MAX_DELAY))
 
 
-# --------------------------------------------------------------------------- #
 # Etapa 1: mapear todos os slugs percorrendo a listagem paginada.
-# --------------------------------------------------------------------------- #
 def fetch_all_slugs(client: Client) -> list[dict]:
     print("== Etapa 1: mapeando programas (listagem paginada) ==")
     found = {}
@@ -181,9 +177,7 @@ def fetch_all_slugs(client: Client) -> list[dict]:
     return list(found.values())
 
 
-# --------------------------------------------------------------------------- #
 # Etapa 2: baixar o detalhe de cada programa (com cache/retomada).
-# --------------------------------------------------------------------------- #
 def fetch_details(client: Client, listing: list[dict], refresh: bool = False):
     print("== Etapa 2: baixando detalhe de cada programa ==")
     PROG_DIR.mkdir(parents=True, exist_ok=True)
@@ -204,9 +198,7 @@ def fetch_details(client: Client, listing: list[dict], refresh: bool = False):
     print()
 
 
-# --------------------------------------------------------------------------- #
 # Etapa 3: consolidar tudo em CSV + JSON.
-# --------------------------------------------------------------------------- #
 def join_labels(labels: dict, key: str) -> str:
     if not isinstance(labels, dict):
         return ""

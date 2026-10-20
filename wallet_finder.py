@@ -30,9 +30,7 @@ import sys
 import time
 from pathlib import Path
 
-# ----------------------------------------------------------------------------
 # Configuração
-# ----------------------------------------------------------------------------
 
 # Pastas que normalmente não contêm carteiras suas e só deixam a varredura lenta.
 IGNORE_DIRS = {
@@ -78,9 +76,7 @@ KNOWN_FILENAMES = {
 # Regex de hex de 64 caracteres (possível chave privada EVM/Ethereum em texto).
 RE_HEX64 = re.compile(r"\b(?:0x)?[0-9a-fA-F]{64}\b")
 
-# ----------------------------------------------------------------------------
 # Utilidades de redação
-# ----------------------------------------------------------------------------
 
 def redact(value: str, reveal: bool) -> str:
     """Mostra só início...fim, a menos que --reveal esteja ativo."""
@@ -101,9 +97,7 @@ def looks_high_entropy(hex_str: str) -> bool:
         return False
     return True
 
-# ----------------------------------------------------------------------------
 # Detectores (cada um recebe caminho e, se aplicável, conteúdo)
-# ----------------------------------------------------------------------------
 
 def detect_keystore_v3(text: str):
     """Keystore Ethereum V3: JSON com 'crypto' (ou 'Crypto') + 'version'."""
@@ -162,9 +156,7 @@ def detect_hex_keys(text: str, reveal: bool):
             break
     return results or None
 
-# ----------------------------------------------------------------------------
 # Varredura
-# ----------------------------------------------------------------------------
 
 def _fmt_secs(s: float) -> str:
     m, sec = divmod(int(s), 60)
@@ -272,9 +264,7 @@ def scan(base: Path, reveal: bool, all_text: bool = False):
     sys.stderr.flush()
     return findings, scanned
 
-# ----------------------------------------------------------------------------
 # Relatório
-# ----------------------------------------------------------------------------
 
 def write_report(findings, scanned, base, reveal):
     base = Path(base)
@@ -333,9 +323,7 @@ def write_report(findings, scanned, base, reveal):
 
     return txt_path, csv_path, text
 
-# ----------------------------------------------------------------------------
 # Main
-# ----------------------------------------------------------------------------
 
 def main():
     ap = argparse.ArgumentParser(description="Inventário read-only de carteiras cripto na sua máquina.")
